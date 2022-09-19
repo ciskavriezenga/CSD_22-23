@@ -14,7 +14,7 @@ import time
 
 
 # load a sample
-sample_plop = sa.WaveObject.from_wave_file("./assets/Plop.wav")
+sample_plop = sa.WaveObject.from_wave_file("../assets/Plop.wav")
 
 # ___ play rhythm ___
 sample_plop.play().wait_done()

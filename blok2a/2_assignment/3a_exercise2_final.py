@@ -32,7 +32,7 @@ print("time_durations", time_durations)
 
 # ___ play rhythm ___
 # load a sample
-sample_plop = sa.WaveObject.from_wave_file("./assets/Plop.wav")
+sample_plop = sa.WaveObject.from_wave_file("../assets/Plop.wav")
 
 # play sequence
 for time_dur in time_durations:

@@ -29,7 +29,7 @@ for time_dur in time_durations:
 print("timestamp_seq:", timestamp_seq)
 
 # load a sample
-sample_plop = sa.WaveObject.from_wave_file("./assets/Plop.wav")
+sample_plop = sa.WaveObject.from_wave_file("../assets/Plop.wav")
 
 # retrieve the first time stamp
 if timestamp_seq:

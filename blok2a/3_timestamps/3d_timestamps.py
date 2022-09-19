@@ -18,7 +18,7 @@ for note_dur in note_durations:
 print("time_durations", time_durations)
 
 # load a sample
-sample_plop = sa.WaveObject.from_wave_file("./assets/Plop.wav")
+sample_plop = sa.WaveObject.from_wave_file("../assets/Plop.wav")
 
 # transform time durations to a sequence of timestamps
 # todo

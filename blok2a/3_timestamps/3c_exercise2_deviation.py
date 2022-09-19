@@ -30,7 +30,7 @@ print("time_durations", time_durations)
 
 # ___ play rhythm ___
 # load a sample
-sample_plop = sa.WaveObject.from_wave_file("./assets/Plop.wav")
+sample_plop = sa.WaveObject.from_wave_file("../assets/Plop.wav")
 
 # retrieve current time to store as t = 0
 time_zero = time.time()
