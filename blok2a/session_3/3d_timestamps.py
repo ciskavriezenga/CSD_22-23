@@ -6,7 +6,7 @@ note_durations = [1, 0.5, 1, 0.5, 0.5]
 bpm = 120
 print("note_durations:", note_durations)
 
-# calculate duration in seconnds of a quarternote
+# calculate duration of a quarternote in seconds
 quarternote_dur = 60.0 / bpm
 print("bpm:", bpm, "quarternote_dur", quarternote_dur)
 
