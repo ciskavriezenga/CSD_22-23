@@ -23,10 +23,6 @@ sample_plop = sa.WaveObject.from_wave_file("../assets/Plop.wav")
 # transform time durations to a sequence of timestamps
 # todo
 
-# use the sum of the durations to calculate the timestamp for each note
-# todo
-
-
 # retrieve the first time stamp (if it exist - else exit)
 # todo
 
