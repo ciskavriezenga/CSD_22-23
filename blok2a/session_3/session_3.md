@@ -1,7 +1,7 @@
 
 # Session 3
 
-## Content
+Content
 
 * #### 'Stand van zaken'
   * Recap last week
