@@ -2,7 +2,7 @@ import time
 import simpleaudio as sa
 
 # load sample
-sample_pop = sa.WaveObject.from_wave_file("./assets/Plop.wav")
+sample_plop = sa.WaveObject.from_wave_file("../assets/Plop.wav")
 
 # list with a rhythmic sequence in quarter notes
 note_dur_seq = [1.5, 1, 1, 0.5]
@@ -20,7 +20,6 @@ def to_time_dur(src_seq, bpm):
 
     return dst_seq
 
-
 # function to transform a sequence with durations in time (sec.) into
 # a sequence with timestamps
 def to_timestamp_seq(src_seq):
@@ -30,9 +29,10 @@ def to_timestamp_seq(src_seq):
     # timestamp in the destination Sequence
     for time_dur in src_seq:
         dst_seq.append(timestamp)
-        timestamp = timestamp + time_dur
+        timestamp += time_dur
 
     return dst_seq
+
 
 # call the to_time function and store the restulting sequence
 time_dur_seq = to_time_dur(note_dur_seq, bpm)
@@ -59,7 +59,7 @@ print("time zero:", time_zero)
 while True:
     now = time.time() - time_zero
     if(now > ts):
-        sample_pop.play()
+        sample_plop.play()
         if timestamp_seq:
             ts = timestamp_seq.pop(0)
         else:
