@@ -65,5 +65,13 @@ def dur_to_tdur(seq_dur, bpm):
 # par note_dur_options: a list with the note duration options
 def gen_sequence(note_dur_options, bpm):
     # generate list with quarter notes durations based on the allowed options
-    seq_dur = [random.choice(noteV) for i in range(16)]
+    seq_dur = [random.choice(note_dur_options) for i in range(16)]
     return dur_to_tdur(seq_dur, bpm)
+
+bpm = 120
+dur_options = [0.25, 0.5, 1]
+# NOTE: the code below can be viewed as duplicate code - see example 2_while.py for a FIX
+tdur_kick = gen_sequence(dur_options, bpm)
+tdur_snare = gen_sequence(dur_options, bpm)
+tdur_hihat = gen_sequence(dur_options, bpm)
+
