@@ -61,7 +61,7 @@ def retrieve_custom_bpm():
             print("Incorrect bpm. Try again:. ")
     return bpm
 
-def retrieve_bpm(bpm):
+def retrieve_bpm():
     # default value
     bpm = 120
 
@@ -71,7 +71,7 @@ def retrieve_bpm(bpm):
         use_default_bpm = input(f"Default bpm = {bpm} Want to adjust? [y/n]: ")
         if use_default_bpm in ("Y", "y"):
             bpm = retrieve_bpm()
-            user_input_correct = TRUE
+            user_input_correct = True
         elif change_default_bpm in ("N", "n"):
             print(f"Ok. Bpm is still {bpm}. ")
             user_input_correct = True
@@ -87,7 +87,7 @@ bpm = retrieve_bpm()
 # SNIPPET 2
 # ________________________________________________________________________________________
 
-# orignial snippet
+# original snippet
 # Function to calculate durations to 16th stamps
 def note_to_dur(src):
     dst = list(range(len(src)))
@@ -128,7 +128,7 @@ def note_to_dur(src):
 # ___________________________________________
 
 # Function to calculate 16th durations to timestamps
-def sixteenth_to_ts(sixteenth_durs)
+def sixteenth_to_ts(sixteenth_durs):
     timestamps = []
 
     # calculate the multiplication value to transform sixteenth duration to time duration

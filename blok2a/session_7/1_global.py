@@ -61,7 +61,7 @@ def dur_to_tdur(seq_dur, bpm):
         seq_tdur.append(dur * note_tdur)
     return seq_tdur
 
-# creates a random list of note durationds expressed in time (s)
+# creates a random list of note durations expressed in time (s)
 # par note_dur_options: a list with the note duration options
 def gen_sequence(note_dur_options, bpm):
     # generate list with quarter notes durations based on the allowed options
