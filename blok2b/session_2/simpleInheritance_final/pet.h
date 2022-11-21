@@ -11,6 +11,7 @@ public:
 
   // methods
   void sleep();
+  void eat();
 protected:
   std::string name;
 };

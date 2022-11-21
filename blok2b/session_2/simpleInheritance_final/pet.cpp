@@ -18,3 +18,7 @@ void Pet::sleep()
 {
   std::cout << name << " is sleeping\n";
 }
+void Pet::eat()
+{
+  std::cout << name << " is eating\n";
+}

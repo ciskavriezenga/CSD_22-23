@@ -12,3 +12,9 @@ Cat::~Cat()
   std::cout << "Cat::~Cat - destructor, name: "
     << name << "\n";
 }
+
+// methods
+void Cat::climb()
+{
+  std::cout << name << " is climbing a tree.\n";
+}

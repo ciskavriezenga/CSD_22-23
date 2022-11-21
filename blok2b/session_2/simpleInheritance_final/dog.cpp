@@ -12,3 +12,9 @@ Dog::~Dog()
   std::cout << "Dog::~Dog - destructor, name: "
     << name << "\n";
 }
+
+// methods
+void Dog::bark()
+{
+  std::cout << name << " is barking.\n";
+}
