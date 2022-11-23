@@ -11,6 +11,7 @@ int main ()
   aCat.sleep();
   aDog.sleep();
 
+  aCat.meow();
   // end program
   return 0;
 }

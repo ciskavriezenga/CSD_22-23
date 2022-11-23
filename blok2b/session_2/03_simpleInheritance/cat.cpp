@@ -12,3 +12,8 @@ Cat::~Cat()
   std::cout << "Cat::~Cat - destructor, name: "
     << name << "\n";
 }
+
+void Cat::meow()
+{
+  std::cout << "\n" << name << " says mrrow\n";
+}

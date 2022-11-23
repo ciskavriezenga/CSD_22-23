@@ -6,4 +6,5 @@ public:
   //constructor and destructor
   Cat(std::string name);
   ~Cat();
+  void meow();
 };

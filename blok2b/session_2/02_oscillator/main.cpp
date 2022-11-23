@@ -2,16 +2,16 @@
 
 int main()
 {
-  std::cout << "\nin main\n";
-  Oscillator osc(220, 0.5);
+  std::cout << "\nstart main\n";
 
-  std::cout << "Frequency of the Oscillator object osc is: "
-    << osc.getFreq() << "\n";
+  Oscillator osc_test(220.4f);
 
-  osc.setFreq(440);
-  std::cout << "Frequency of the Oscillator object osc is: "
-    << osc.getFreq() << "\n";
+  Oscillator osc(440.8f);
+
+  //osc.setFreq(220.0);
+  std::cout << "\nosc.freq: " << osc.getFreq() << "\n";
 
   // end program
   return 0;
+
 }
