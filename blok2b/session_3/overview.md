@@ -14,7 +14,7 @@
 * #### Installing jack
   * sounding simple sine example
   <u>**example: 02_simpleSine**</u>
-  _simple program meant to verify if you correctly installed jack and can work with audio output_
+  _simple program meant wto verify if you correctly installed jack and can work with audio output_
   <u>**example: 03_soundingSineClass**</u>
   _example that uses jack and uses a Sine object to generate an audible sinewave - you can use this example for the final assignment as a quickstart_
 
