@@ -10,4 +10,4 @@ $(TARGET): $(SOURCE)
 .cpp.o:
 	$(CXX) -c $(CXXFLAGS) $<
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(TARGET) *.o *.csv

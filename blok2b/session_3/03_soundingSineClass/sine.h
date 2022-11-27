@@ -1,6 +1,7 @@
 #ifndef _SINE_H_
 #define _SINE_H_
 #include <iostream>
+#include <cmath>
 
 class Sine
 {
@@ -19,6 +20,7 @@ public:
   float getFrequency();
 
 private:
+  const float pi = acos (-1);  //atan(1) * 4; <-- vak van Pieter.
   float frequency;
   float amplitude;
   float phase;

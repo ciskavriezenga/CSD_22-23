@@ -6,8 +6,7 @@
 * #### Sine wave generation
   * Sine function  
   * Sine function in audio context
-  <u>**see plotSine.R**</u> _we treated the generation of a sine wave in audio context step by step (.R file is a script in the R language)_
-
+  <u>**see plotSine.R**</u> - _the generation of a sine wave in audio context step by step (.R file is a script in the R language)_
   * Sine in code example - plotting the resulting text output
   <u>**example: 01_sine**</u>
 

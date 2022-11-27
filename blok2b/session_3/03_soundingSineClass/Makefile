@@ -1,7 +1,7 @@
 CXX= g++
-CXXFLAGS = -I/usr/local/include -Wall -std=c++14
+CXXFLAGS = -I/usr/local/include -Wall -std=c++17
 LDFLAGS= -ljack
-SOURCE=jack_module.o sine.o main.o
+SOURCE=sine.o main.o
 TARGET=example
 
 $(TARGET) : $(SOURCE)

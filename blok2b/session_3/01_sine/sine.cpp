@@ -22,7 +22,8 @@ float Sine::getSample() {
 }
 
 void Sine::tick() {
-  // TODO - frequency / SAMPLERATE can be implemented in a more efficient way
+  // NOTE
+  // • frequency / SAMPLERATE can be implemented in a more efficient way
   phase += frequency / SAMPLERATE;
   sample = sin(M_PI * 2 * phase);
 }
@@ -30,7 +31,8 @@ void Sine::tick() {
 //getters and setters
 void Sine::setFrequency(float frequency)
 {
-  // TODO add check to see if parameter is valid
+  // TODO
+  // • add check to see if parameter is valid
   this->frequency = frequency;
 }
 

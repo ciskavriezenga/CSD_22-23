@@ -12,43 +12,37 @@
  * jackd -d coreaudio
  */
 
-int main(int argc,char **argv)
-{
-  // create a JackModule instance
-  JackModule jack;
+class CustomCallback : public AudioCallback {
+public:
+  void prepare(int rate) override {
+    samplerate = (float) rate;
+  }
 
-  // init the jack, use program name as JACK client name
-  jack.init(argv[0]);
-  double samplerate = jack.getSamplerate();
-  Sine sine(220, samplerate);
-
-  float amplitude = 0.15;
-  //assign a function to the JackModule::onProces
-  jack.onProcess = [&sine, &amplitude](jack_default_audio_sample_t *inBuf,
-    jack_default_audio_sample_t *outBuf, jack_nframes_t nframes) {
-
-    for(unsigned int i = 0; i < nframes; i++) {
-      outBuf[i] = sine.getSample() * amplitude;
+  void process(AudioBuffer buffer) override {
+    for (int i = 0; i < buffer.numFrames; ++i) {
+      // write sample to buffer at channel 0, amp = 0.25
+      buffer.outputChannels[0][i] = sine.getSample();
       sine.tick();
     }
-    amplitude = 0.5;
-    return 0;
-  };
+  }
+  private:
+  float samplerate = 44100;
+  Sine sine = Sine(220, samplerate);
+};
 
-  jack.autoConnect();
+int main(int argc,char **argv)
+{
+  auto callback = CustomCallback {};
+  auto jackModule = JackModule { callback };
 
-  //keep the program running and listen for user input, q = quit
-  std::cout << "\n\nPress 'q' when you want to quit the program.\n";
+  jackModule.init (0, 1);
+
   bool running = true;
-  while (running)
-  {
-    switch (std::cin.get())
-    {
-      case 'q':
-        running = false;
-        jack.end();
-        break;
-    }
+  while (running) {
+      switch (std::cin.get()) {
+          case 'q':
+              running = false;
+      }
   }
 
   //end the program
