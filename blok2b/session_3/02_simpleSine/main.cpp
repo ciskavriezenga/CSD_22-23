@@ -11,13 +11,16 @@
  * jackd -d coreaudio
  */
 
-
 class CustomCallback : public AudioCallback {
 public:
     void prepare (int rate) override {
         samplerate = (float) rate;
     }
 
+    // ___QUESTION___
+    // Why do we need to 'wrap' phase to 0 after > 1 and thereby keep it between the range [0,1]?
+
+    // audio callback function
     void process (AudioBuffer buffer) override {
         for (int i = 0; i < buffer.numFrames; ++i) {
             phase += frequency / samplerate;
