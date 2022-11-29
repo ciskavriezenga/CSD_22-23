@@ -16,6 +16,8 @@ class CustomCallback : public AudioCallback {
 public:
   void prepare(int rate) override {
     samplerate = (float) rate;
+    sine.setSamplerate(samplerate);
+    std::cout << "\nsamplerate: " << samplerate << "\n";
   }
 
   void process(AudioBuffer buffer) override {

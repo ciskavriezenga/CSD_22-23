@@ -1,16 +1,27 @@
+
+
+
+
+
+
+Constr
+
+
+
+
+
+
+
+
+
 #include "sine.h"
 #include "math.h"
 
 Sine::Sine(float frequency) {
   // initialize members
   this->frequency = frequency;
-  amplitude = 1.0;
-  sample = 0;
-  phase = 0;
   std::cout << "Sine - constructor\n";
 }
-
-
 
 Sine::~Sine() {
   std::cout << "Sine - destructor\n";

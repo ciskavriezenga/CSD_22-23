@@ -2,7 +2,7 @@
 curve(expr=sin, from=0, to=2*pi, xname = "t")
 abline(h = 0, lty = 1, col = "gray")
 
-
+# "NOTE - UNCLEAR - todo: add remark that we are scaling to 1 second"
 # generate and display a sinewave with wavelength = 1, frequency = 1
 sinewave_freq1 <- function(t) sin(t * 2*pi)
 curve(expr=sinewave_freq1, from=0, to=2*pi, xname = "t")
@@ -19,7 +19,7 @@ abline(h = 0, lty = 1, col = "gray")
 # samplerate = the number of samples per seconds
 # thus a sinewave with frequency = 1 corresponds to a wavelength = samplerate 
 samplerate = 44100
-# instead of finishing the wave in 1 t interval (simlation 1 second),
+# instead of finishing the wave in 1 t interval (simulation 1 second),
 # we need to 'slow it down' to 44100 
 # thus 'divide' every step in 44100 smaller steps:
 sinewave <- function(t) sin(t * 2*pi / samplerate)

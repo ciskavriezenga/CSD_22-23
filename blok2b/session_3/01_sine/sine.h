@@ -23,11 +23,10 @@ public:
   //NOTE - do we need a setter for phase? for now -> not using one
 
 private:
-  float amplitude;
   float frequency;
-  float phase;
+  float phase = 0;
   // contains the current sample
-  float sample;
+  float sample = 0;
 };
 
 #endif

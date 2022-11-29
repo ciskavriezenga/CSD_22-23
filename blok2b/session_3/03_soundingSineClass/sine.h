@@ -7,9 +7,9 @@ class Sine
 {
 public:
   //Constructor and destructor
-  Sine(float frequency, double samplerate);
+  Sine(float frequency, float samplerate = 44100);
   ~Sine();
-
+  void setSamplerate(float samplerate);
   //return the current sample
   float getSample();
   // go to next sample
@@ -26,7 +26,7 @@ private:
   float phase;
   // sample contains the current sample
   float sample;
-  double samplerate;
+  float samplerate;
 };
 
 #endif

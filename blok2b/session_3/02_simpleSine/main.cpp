@@ -23,9 +23,12 @@ public:
     // audio callback function
     void process (AudioBuffer buffer) override {
         for (int i = 0; i < buffer.numFrames; ++i) {
-            phase += frequency / samplerate;
             // write sample to buffer at channel 0
             buffer.outputChannels[0][i] = sin (phase * pi * 2.0f);
+            phase += frequency / samplerate;
+            if (phase > 1.0f) {
+              phase -= 1.0f;
+            }
         }
     }
 
@@ -33,14 +36,14 @@ private:
     const float pi = acos (-1);  //atan(1) * 4; <-- vak van Pieter.
     float phase = 0;
     float frequency = 440;
-    float samplerate = 44100;
+    float samplerate;
 };
 
 // ================================================================================
 
 int main() {
-    auto callback = CustomCallback {};
-    auto jackModule = JackModule { callback };
+    CustomCallback callback = CustomCallback {};
+    JackModule jackModule = JackModule { callback };
 
     jackModule.init (0, 1);
 

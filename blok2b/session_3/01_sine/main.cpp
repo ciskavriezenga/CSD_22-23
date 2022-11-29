@@ -2,11 +2,10 @@
 #include "sine.h"
 #include "writeToFile.h"
 
+
 int main() {
   // create sine wave
   Sine sine(220);
-  std::cout << "Sine frequency: " << sine.getFrequency() << "\n";
-  sine.setFrequency(10);
   std::cout << "Sine frequency: " << sine.getFrequency() << "\n";
 
   // write 1 second of samples to file

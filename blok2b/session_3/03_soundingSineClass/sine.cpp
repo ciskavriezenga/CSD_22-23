@@ -1,7 +1,7 @@
 #include "sine.h"
 #include "math.h"
 
-Sine::Sine(float frequency, double samplerate) : frequency(frequency),
+Sine::Sine(float frequency, float samplerate) : frequency(frequency),
   amplitude(1.0), phase(0), sample(0), samplerate(samplerate)
 {
   std::cout << "Sine - constructor\n";
@@ -13,6 +13,11 @@ Sine::~Sine() {
   std::cout << "Sine - destructor\n";
 }
 
+void Sine::setSamplerate(float samplerate) {
+  this->samplerate =samplerate;
+}
+
+
 
 float Sine::getSample() {
   return sample;
@@ -20,9 +25,12 @@ float Sine::getSample() {
 
 void Sine::tick() {
   // NOTE 1. - frequency / SAMPLERATE can be implemented in a more efficient way
-  // NOTE 2. - still need todo 'something' with the phase, see 04_sin_function
   phase += frequency / samplerate;
+  if(phase > 1.0f) {
+    phase -= 1.0f;
+  }
   sample = sin(pi * 2 * phase) * amplitude;
+
 }
 
 //getters and setters
