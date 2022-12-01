@@ -23,7 +23,8 @@ class AudioToFile
 public:
   // TODO
   // add functionality to set numFrames and channels
-  AudioToFile(CustomCallback *callback);
+  AudioToFile(CustomCallback *callback, int numInputchannels = 1,
+              int numOutputChannels = 1, int numFrames = 256);
   ~AudioToFile();
   // TODO
   // add functionality to write a given range to file
@@ -34,4 +35,9 @@ private:
 
   CustomCallback* callback;
   WriteToFile* fileWriter;
+  int numInputChannels = 1;
+  int numOutputChannels = 1;
+  int numFrames = 256;
+  float **inputChannel;
+  float **outputChannel;
 };

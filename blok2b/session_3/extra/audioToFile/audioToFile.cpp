@@ -1,12 +1,11 @@
 #include "audioToFile.h"
 
-WriteToFile::WriteToFile(std::string fileName, bool overwrite)
-{
+WriteToFile::WriteToFile(std::string fileName, bool overwrite) {
   // check if we are allowed to overwrite file
-  if(!overwrite) {
-    if(fileExists(fileName)){
+  if (!overwrite) {
+    if (fileExists(fileName)) {
       std::cout << "\n------WriteToFile::WriteToFile------"
-        << "File already exists, not allowed to overwrite!\n";
+                << "File already exists, not allowed to overwrite!\n";
       // NOTE: for now, simple solution: EXIT
       throw "WriteToFile::WriteToFile - not able to open file: it already exists and not allowed to overwrite it.";
     }
@@ -14,74 +13,85 @@ WriteToFile::WriteToFile(std::string fileName, bool overwrite)
   openFile(fileName);
 }
 
-WriteToFile::~WriteToFile()
-{
+WriteToFile::~WriteToFile() {
   file.close();
 }
 
-bool WriteToFile::write(std::string text)
-{
-  if(file.is_open())
-  {
+bool WriteToFile::write(std::string text) {
+  if (file.is_open()) {
     file << text;
     return true;
   } else return false;
 }
 
-bool WriteToFile::fileExists(const std::string& fileName)
-{
+bool WriteToFile::fileExists(const std::string &fileName) {
   // create a variable of type "struct stat"
   struct stat buffer;
   //check if file exists
-  if (stat(fileName.c_str(), &buffer) != -1)
-  {
+  if (stat(fileName.c_str(), &buffer) != -1) {
     return true;
   }
   return false;
 }
 
-bool WriteToFile::openFile(std::string fileName)
-{
+bool WriteToFile::openFile(std::string fileName) {
   file.open(fileName);
   return file.is_open();
 }
 
 
-
-AudioToFile::AudioToFile(CustomCallback *callback) : callback(callback){
+AudioToFile::AudioToFile(CustomCallback *callback, int numInputchannels,
+                         int numOutputChannels, int numFrames) :
+                         callback(callback),
+                         numInputChannels(numInputchannels),
+                         numOutputChannels(numOutputChannels),
+                         numFrames(numFrames) {
   // instantiate fileWriter and AudioBuffer
   fileWriter = new WriteToFile("output.csv", true);
+
+  inputChannel = new float*[numInputChannels];
+  outputChannel = new float*[numOutputChannels];
+
+  for(int i = 0; i < numInputChannels; i++) {
+    inputChannel[i] = new float[numFrames];
+  }
+  for(int i = 0; i < numOutputChannels; i++) {
+    outputChannel[i] = new float[numFrames];
+  }
+
 }
+
 AudioToFile::~AudioToFile() {
   delete fileWriter;
   fileWriter = nullptr;
+
+  // delete all buffers
+  for(int i = 0; i < numInputChannels; i++) {
+    delete [] inputChannel[i];
+    inputChannel[i] = nullptr;
+  }
+  for(int i = 0; i < numOutputChannels; i++) {
+    delete [] outputChannel[i];
+    outputChannel[i] = nullptr;
+  }
+  delete [] inputChannel;
+  delete [] outputChannel;
 }
 
-void AudioToFile::write()
-{
+void AudioToFile::write() {
   // TODO - CODE REVIEW
   // CODE BELOW IS HASTLY CODED ...
-  const int numFrames = 256;
-  const int numChannels = 1;
-  // due to const inputChannels, we already need to initialize an input buffer
-  float* inputBuffer = new float[numFrames];
-  AudioBuffer audioBuffer = AudioBuffer {
-    .inputChannels = const_cast<const float**>(&inputBuffer),
-    .outputChannels = new float*[numChannels],
-    .numInputChannels = numChannels,
-    .numOutputChannels = numChannels,
-    .numFrames = numFrames
+
+  AudioBuffer audioBuffer = AudioBuffer{
+          .inputChannels = const_cast<const float **>(inputChannel),
+          .outputChannels = outputChannel,
+          .numInputChannels = numInputChannels,
+          .numOutputChannels = numOutputChannels,
+          .numFrames = numFrames
   };
-  // initialize output buffer
-  audioBuffer.outputChannels[0] = new float[numFrames];
 
   callback->process(audioBuffer);
-  for(int i = 0; i < numFrames; i++) {
+  for (int i = 0; i < numFrames; i++) {
     fileWriter->write(std::to_string(audioBuffer.outputChannels[0][i]) + "\n");
   }
-    // delete all buffers
-  delete [] inputBuffer;
-  //due to cast no need to delete [] buffer.inputChannels;
-  delete [] *(audioBuffer.outputChannels);
-  delete [] audioBuffer.outputChannels;
 }
