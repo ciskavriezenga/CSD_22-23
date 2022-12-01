@@ -13,7 +13,7 @@
  * jackd -d coreaudio
  */
 
-#define WRITE_TO_FILE 0
+#define WRITE_TO_FILE 1
 
 
 int main(int argc, char **argv) {
@@ -21,8 +21,8 @@ int main(int argc, char **argv) {
   auto jackModule = JackModule{callback};
 
 #if WRITE_TO_FILE
-  AudioToFile audioToFile(&callback);
-  audioToFile.write();
+  AudioToFile audioToFile;
+  audioToFile.write(callback);
 #else
 
   jackModule.init(0, 1);
