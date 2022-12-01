@@ -166,3 +166,7 @@ Icon
 .com.apple.timemachine.donotpresent
 
 .idea
+
+
+# data
+*.csv
