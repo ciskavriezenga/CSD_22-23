@@ -9,8 +9,12 @@
   * git _(* randvoorwaarde)_
 
 * #### Precision & phase wrap
-  * <u>**example 01_sin_function**</u>
-  * <u>**example 02_precision**</u>
+  * <u>**example 02_sin_sineSquareSaw**</u>
+    1. let's add Sine as subclass of Oscillator 
+    2. add subclass square
+    3. add subclass saw
+
+** #### (pure) virtual methods & abstract classes 
 
 * #### (pure) virtual methods & abstract classes
   * override
@@ -19,7 +23,3 @@
   * pure virtual method & abstract class
   <u>**example 04_override_callFromBase**</u>
 
-## Extra
-* demo computer vision & Augmented Reality
-  _detect object orientation with checkerboard pattern_
-  * <u>**example 08_AR_checkerboard**</u>
