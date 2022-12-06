@@ -6,9 +6,6 @@
 
 int main()
 {
-
-  Oscillator osc;
-
   Sine sine;
 
 

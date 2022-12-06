@@ -14,7 +14,6 @@
     2. add subclass square
     3. add subclass saw
 
-** #### (pure) virtual methods & abstract classes 
 
 * #### (pure) virtual methods & abstract classes
   * override
