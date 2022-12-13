@@ -1,114 +1,125 @@
+/*
+  Example program that plays a simple hard coded melody using a square wave oscillator
+*/
+
 #include <iostream>
 #include <thread>
 #include "jack_module.h"
 #include "math.h"
-#include "writeToFile.h"
 #include "square.h"
 #include "melody.h"
+
 /*
- * NOTE: jack2 needs to be installed
- * jackd invokes the JACK audio server daemon
+ * NOTE: the development library with headers for jack2 needs to be installed to build this program.
+ * 
+ * When built, before running the program start jackd, the JACK audio server daemon.
+ *
  * https://github.com/jackaudio/jackaudio.github.com/wiki/jackd(1)
- * on mac, you can start the jack audio server daemon in the terminal:
- * jackd -d coreaudio
+ *
+ * start jackd : jackd -d <backend>
+ * where backend is e.g. coreaudio (MacOS) or alsa (Linux)
+ *
+ * Alternatively there are graphical clients that start jackd.
  */
 
-#define WRITE_TO_FILE 0
 
 
-double mtof(float mPitch)
+class Callback : public AudioCallback
 {
-  // source of the mtof calculation:
-  // https://www.musicdsp.org/en/latest/Other/125-midi-note-frequency-conversion.html
-  return 440.0 * pow(2.0, (mPitch - 57.0f)/12.0f);
-}
 
-void updatePitch(Melody* melody, Square* square) {
-  float pitch = melody->getPitch();
-  double freq = mtof(pitch);
-  std::cout << "next pitch: " << pitch << ", freq is: " << freq << std::endl;
-  square->setFrequency(freq);
-}
+public:
+
+    double mtof(float mPitch)
+    {
+      // source of the mtof calculation:
+      // https://www.musicdsp.org/en/latest/Other/125-midi-note-frequency-conversion.html
+      return 440.0 * pow(2.0, (mPitch - 57.0f)/12.0f);
+    } // mtof()
+
+
+    void updatePitch(Melody& melody, Square& square) {
+      float pitch = melody.getPitch();
+      double freq = mtof(pitch);
+      std::cout << "next pitch: " << pitch << ", freq is: " << freq << std::endl;
+      square.setFrequency(freq);
+    } // updatePitch()
+
+
+    void prepare (double sampleRate) override {
+      this->sampleRate=sampleRate;
+      updatePitch(melody,square);
+    } // prepare()
+
+
+    /*
+     * process() gets called by the JACK engine.
+     *
+     * If you are interested in incoming audio, use inputChannels[channel][sample]
+     * For sending audio to the output(s), use outputChannels[channel][sample]
+     */
+    void process (AudioBuffer buffer) override {
+        auto [inputChannels, outputChannels, numInputChannels, numOutputChannels, numFrames] = buffer;
+
+	for (int channel = 0; channel < numOutputChannels; ++channel) {
+	    for (int sample = 0; sample < numFrames; ++sample) {
+		outputChannels[channel][sample] = square.getSample() * amplitude;
+		square.tick(); // rather mixed up functionality
+
+	    /* After every sample, check if we need to advance to the next note
+	     * This is a bit awkward in this scheme of buffers per channel
+	     *  In a multichannel setting we should update pitches independently per channel!
+	     */
+	    if(frameIndex >= noteDelayFactor * sampleRate) {
+	      // reset frameIndex
+	      frameIndex = 0;
+	      updatePitch(melody,square);
+	    }
+	    else {
+	      // increment frameindex
+	      frameIndex++;
+	    }
+	  } // for sample
+	} // for channel
+    } // process()
+
+private:
+  double sampleRate;
+  Square square;
+  float amplitude = 0.025;
+  Melody melody;
+  int frameIndex = 0;
+
+  /* instead of using bpm and specifying note lenghts we'll make every note
+   * equal length and specify the delay between notes in term of the
+   * samplerate
+   *
+   * A note of say 500 msec or 0.5 sec, takes 0.5*samplerate samples to be
+   * played
+   */
+  double noteDelayFactor=0.005;
+}; // Callback{}
 
 
 
 int main(int argc,char **argv)
 {
-  // create a JackModule instance
-  JackModule jack;
+  auto callback = Callback {};
+  auto jack_module = JackModule(callback);
 
-  // init the jack, use program name as JACK client name
-  jack.init(argv[0]);
-  const double samplerate = jack.getSamplerate();
+  jack_module.init(1,1);
 
-  Square square(220, samplerate);
-
-  Melody melody;
-
-#if WRITE_TO_FILE
-  WriteToFile fileWriter("output.csv", true);
-
-  for(int i = 0; i < 5000; i++) {
-    fileWriter.write(std::to_string(square.getSample()) + "\n");
-    square.tick();
-  }
-  std::cout << "\nWROTE TO FILE = DONE." << std::endl;
-#else
-
-  float amplitude = 0.025;
-
-  // keep track of the frameIndex, to play notes at a given frame interval
-  int frameIndex = 0;
-  const int frameInterval = 0.05 * samplerate;
-  // start with the first pitch
-  updatePitch(&melody, &square);
-
-
-  //assign a function to the JackModule::onProces
-  jack.onProcess = [&square, &amplitude, &melody, &frameIndex, frameInterval](jack_default_audio_sample_t *inBuf,
-    jack_default_audio_sample_t *outBuf, jack_nframes_t nframes) {
-
-    // fill output buffer
-    for(unsigned int i = 0; i < nframes; i++) {
-
-      // check if we need to set the frequency to the next note
-      if(frameIndex >= frameInterval) {
-        // reset frameIndex
-        frameIndex = 0;
-        updatePitch(&melody, &square);
-      } else {
-        // increment frameindex
-        frameIndex++;
-      }
-
-      // write sample to output
-      outBuf[i] = square.getSample() * amplitude;
-
-      // calculate next sample
-      square.tick();
-
-    }
-
-    return 0;
-  };
-
-  jack.autoConnect();
-
-  //keep the program running and listen for user input, q = quit
-  std::cout << "\n\nPress 'q' when you want to quit the program.\n";
+  std::cout << "\n\nType 'quit' to exit\n";
   bool running = true;
-  while (running)
-  {
+  while (running) {
     switch (std::cin.get())
     {
       case 'q':
         running = false;
-        jack.end();
         break;
     }
-  }
-#endif
-  //end the program
+  } // while
+
   return 0;
 
 } // main()
+

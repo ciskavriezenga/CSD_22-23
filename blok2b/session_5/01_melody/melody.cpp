@@ -8,7 +8,7 @@ Melody::~Melody()
 
 float Melody::getPitch()
 {
-  // wrap index
+  // wrap index back to the beginning
   if(index >= NUM_NOTES) {
     index = 0;
   }

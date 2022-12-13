@@ -6,6 +6,7 @@ class Square
 {
 public:
   //Constructor and destructor
+  Square();
   Square(double frequency, double samplerate);
   ~Square();
 
