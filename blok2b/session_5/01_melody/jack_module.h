@@ -99,12 +99,17 @@ public:
 
         allocateBuffers();
 
+        /*
+         *  as Jack will start calling process() as soon as the client is
+         *  activated, all preparations must be done prior to that. Therefore
+         *  prepareCallback() must be (just) before activateJackClient
+         */
+        prepareCallback();
+
         activateJackClient();
 
         connectInputs (inputClient);
         connectOutputs (outputClient);
-
-        prepareCallback();
     }
 
     /// Returns the sampling rate at which Jack is running. Only call this after `init()` has been called
