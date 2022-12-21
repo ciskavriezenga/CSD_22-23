@@ -1,7 +1,7 @@
 CXX= g++
-CXXFLAGS = -I/usr/local/include -Wall -std=c++1z
+CXXFLAGS = -I/usr/local/include -Wall -std=c++2a
 LDFLAGS= -ljack
-SOURCE=jack_module.o melody.o writeToFile.o square.o main.o
+SOURCE= melody.o square.o main.o
 TARGET=example
 
 $(TARGET) : $(SOURCE)
